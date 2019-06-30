@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <link rel="stylesheet" href="/assets/style.css">
+    <title>Bse Analysis</title>
+</head>
+
+<body >
+
+      <nav class="fixed-header navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         <form class="form-inline mr-auto">
+            <input id="mySearch" class="form-control" type="text" placeholder="Search" aria-label="Search" style="margin-left: 246px;">
+            <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="button" onclick="MyFunction()" return="false">Search</button>
+        </form>
+    </div>
+    <a class="navbar-brand" href="#" >Bse Analysis</a>
+
+</nav>
+
+
+    <div>
+        <div  class="maintablediv"  >
+
+
+        <table   class="table  table-dark table-hover table-sm ">
+            <thead class="thead">
+                <tr>
+                    <th data-field="Code">Code</th>
+                    <th data-field="Name">Name</th>
+                    <th data-field="Open">Open</th>
+                    <th data-field="High">High</th>
+                    <th data-field="Low">Low</th>
+                    <th data-field="Close">Close</th>
+                </tr>
+            </thead>
+            <tbody id='table-body'>
+                {% for each_result in data %}
+                <tr>
+                    <td>{{each_result.code}}</td>
+                    <td>{{each_result.name}}</td>
+                    <td>{{each_result.open}}</td>
+                    <td>{{each_result.high}}</td>
+                    <td>{{each_result.low}}</td>
+                    <td>{{each_result.close}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+     </div>
+
+<script type="text/javascript">
+    function MyFunction() {
+      var name = document.getElementById("mySearch").value;
+       $.ajax({
+           type: "POST",
+           url: "search",
+           data: JSON.stringify({ name: name}),
+           contentType: "application/json; charset=utf-8",
+           dataType: "json",
+           async: "true",
+           cache: "false",
+           processData: false,
+           success: function (data) {
+             data = JSON.parse(data)
+ 	           $('#table-body').html('');
+               for(var i =0;i < data.length-1;i++){
+                  var each_result = data[i];
+                $('#table-body').append(
+                    "<tr>" +
+                    "<td>" + each_result.code + "</td>" +
+                    "<td>" + each_result.name + "</td>" +
+                    "<td>" + each_result.open + "</td>" +
+                    "<td>" + each_result.high + "</td>" +
+                    "<td>" + each_result.low + "</td>" +
+                    "<td>" + each_result.close + "</td>" +
+                    "</tr>");
+                };
+        },
+           Error: function (x, e) {
+               console.log(e);
+           }
+       });
+
+}
+</script>
+</body>
+</html>

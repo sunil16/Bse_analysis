@@ -1,0 +1,7 @@
+
+bz2file==0.98
+CherryPy==14.0.0
+click==6.7
+Jinja2==2.8
+redis==2.10.6
+urllib3==1.13.1

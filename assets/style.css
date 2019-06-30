@@ -1,0 +1,55 @@
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+ th {
+    text-align: left;
+    padding: 8px;
+    color: #00ad5f
+}
+td {
+
+}
+
+tr:nth-child(even){background-color: #212529}
+
+.maintablediv{
+    max-width: 900px;
+    margin: auto;
+    padding: 10px;
+    padding-top: 65px;
+}
+body {
+    background-color: lightblue;
+}
+.fixed-header, .fixed-footer{
+       width: 100%;
+       position: fixed;
+       background: #333;
+       padding: 10px 0;
+       color: #fff;
+   }
+   .fixed-header{
+       top: 0;
+   }
+   .fixed-footer{
+       bottom: 0;
+   }
+
+   nav a{
+       color: #fff;
+       text-decoration: none;
+       padding: 7px 25px;
+       display: inline-block;
+   }
+
+   tbody {
+     height: 150px;
+     overflow-y: auto;
+     overflow-x: hidden;
+   }
+.navbar-brand{
+   margin-right: 13.5rem;
+}
