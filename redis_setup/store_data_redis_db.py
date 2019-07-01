@@ -1,5 +1,6 @@
 import datetime
 import os
+import os.path
 import csv
 from redis_setup.get_redis_connection import get_redis
 
@@ -19,28 +20,30 @@ class BseDataStore(object):
                 print("Error in pipeline object creation")
 
     def data_saved_into_redis(self):
-        # try:
-        file_name = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%d%m%y")
-        with open('./bhavlocalzip/' + 'EQ' + '280619' + '.CSV','r') as csv_file:
-            csv_reader = csv.DictReader(csv_file)
-            pipeline_obj = self.get_pipeline()
-            temp_dict = dict()
-            i = 0;
-            for row in csv_reader:
-                name = row['SC_NAME'].strip()
-                temp_dict = {
-                    'code': row['SC_CODE'],
-                    'open': row['OPEN'],
-                    'high': row['HIGH'],
-                    'low': row['LOW'],
-                    'close': row['CLOSE']
-                }
-                if i < 10:
-                    pipeline_obj.zadd('first10',{name: i})
-                i = i + 1
-                pipeline_obj.hmset(name,temp_dict)
+        try:
+            file_name = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%d%m%y")
+            if os.path.isfile( 'EQ' + file_name + '.CSV' ): # if bhav copy not available process old copy for first time
+                file_name = '280619'
+            with open('./bhavlocalzip/' + 'EQ' + file_name + '.CSV','r') as csv_file:
+                csv_reader = csv.DictReader(csv_file)
+                pipeline_obj = self.get_pipeline()
+                temp_dict = dict()
+                i = 0;
+                for row in csv_reader:
+                    name = row['SC_NAME'].strip()
+                    temp_dict = {
+                        'code': row['SC_CODE'],
+                        'open': row['OPEN'],
+                        'high': row['HIGH'],
+                        'low': row['LOW'],
+                        'close': row['CLOSE']
+                    }
+                    if i < 10:
+                        pipeline_obj.zadd('first10',{name: i})
+                    i = i + 1
+                    pipeline_obj.hmset(name,temp_dict)
 
-            pipeline_obj.save()
-            pipeline_obj.execute()
-        # except:
-        #     print("Error in saving data in redis")
+                pipeline_obj.save()
+                pipeline_obj.execute()
+        except:
+            print("Error in saving data in redis")

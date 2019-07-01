@@ -74,4 +74,7 @@ config = {
     }
 }
 
-cherrypy.quickstart(Api(), '/', config=config)
+
+
+if __name__ == '__main__':
+    cherrypy.quickstart(Api(), '/', config=config)

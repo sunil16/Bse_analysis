@@ -33,7 +33,7 @@ urllib3==1.13.1
 
 Ubuntu 16.04 LTS
 
-python 2.7
+python 3
 
 ### First10 Results ###
 

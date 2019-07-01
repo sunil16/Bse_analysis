@@ -20,7 +20,7 @@ class BseBhav():
 
     def make_url(self):
         download_today_bse = self.yesterday_date .strftime("%d%m%y")
-        url = 'http://www.bseindia.com/download/BhavCopy/Equity/EQ' + '280619' + '_CSV.ZIP'
+        url = 'http://www.bseindia.com/download/BhavCopy/Equity/EQ' + download_today_bse + '_CSV.ZIP'
         return url
 
     def get_bhav_zip(self):
@@ -34,9 +34,9 @@ class BseBhav():
             else:
                 return None
         except urllib2.HTTPError as e:
-            print('HTTPError = ', e)
+            print('Bhav copy not available for this date please  https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx', e)
         except (urllib2.URLError):
-            print('URLError = ',  e)
+            print('Bhav copy not available for this date please  https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx', e)
         except Exception:
             import traceback
             print('generic exception: ' + traceback.format_exc())
